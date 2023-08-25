@@ -1,7 +1,7 @@
 import pandas as pd
 from database_utils import DatabaseConnector
 from data_cleaning import DataCleaning
-#import tabula
+from tabula.io import read_pdf
 import requests
 
 
@@ -51,7 +51,7 @@ class DataExtractor:
             Dataframe: The data within the pdf
         '''
         # Read the pdf into a list of DataFrames
-        dfs = tabula.read_pdf(url, pages='all')
+        dfs = read_pdf(url, pages='all')
         # Concatenate the list into one Dataframe and return
         return pd.concat(dfs)
     
@@ -86,6 +86,7 @@ class DataExtractor:
         '''
         # Make multiple calls, one for each store to the API, and put the results into a Dataframe
         # Each store has data in a dictionary. These will be concatenated into a single dictionary
+        # Todo: Drive this from the number of stores retrieved
         for store_iteration in range(450):
             # Build the endpoint
             endpoint_with_store_number = endpoint.format(store_number=store_iteration+1)
@@ -105,28 +106,35 @@ class DataExtractor:
              
 def run():
     extractor = DataExtractor()
-    data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
-    cleansed_data = DataCleaning.clean_user_data(data)
-    extractor.connector.upload_to_db(cleansed_data, 'dim_users')
-    print(cleansed_data.head()) 
-
+    # print('working on user_data....')
+    # remote_db_user_data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
+    # cleansed_data = DataCleaning.clean_user_data(remote_db_user_data)
+    # extractor.connector.upload_to_db(cleansed_data, 'dim_users')
+    # print('.... complete')
+    
     # retrieve the pdf
+    # print('working on pdf_data....')
     # pdf_url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
     # pdf_data = extractor.retrieve_pdf_data(pdf_url)
     # pdf_data_cleaned = DataCleaning.clean_card_data(pdf_data)
     # extractor.connector.upload_to_db(pdf_data_cleaned, 'dim_card_details')
+    # print('.... complete')
 
+    print('working on stores data...')
     header_details = {"x-api-key": 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
     url_retrieve_a_store = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}'
     url_number_of_stores = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
     
-    # number_of_stores = extractor.list_number_of_stores(url_number_of_stores, header_details)
-    # print('number of stores ' + str(number_of_stores))
-    # stores = extractor.retrieve_stores_data(url_retrieve_a_store, header_details)
-    # print('-- and finally -- ')
-    # print(stores)
+    number_of_stores = extractor.list_number_of_stores(url_number_of_stores, header_details)
+    print('Number of stores: ' + str(number_of_stores))
+    stores = extractor.retrieve_stores_data(url_retrieve_a_store, header_details)
+    extractor.connector.upload_to_db(stores, 'stores')
+    stores_cleaned = DataCleaning.called_clean_store_data(stores)
+    extractor.connector.upload_to_db(stores_cleaned, 'dim_store_details')
+    print('.... complete')
 
 if __name__ == '__main__':
     print('Data_Extraction running main')
     run()
+    
 

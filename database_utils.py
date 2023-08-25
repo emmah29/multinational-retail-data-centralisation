@@ -17,9 +17,15 @@ class DatabaseConnector:
 
     def __init__(self):
         # attributes
-        self.engine_instance = self.init_db_engine()
+        # Launch the remote db engine
+        credentials = DatabaseConnector.read_db_creds(self, 'db_creds.yaml')
+        self.engine_instance = self.init_db_engine(credentials)
+        # Launch the local db engine
+        local_credentials = DatabaseConnector.read_db_creds(self, 'local_db_creds.yaml')
+        self.local_engine_instance = self.init_db_engine(local_credentials)  
+        self.local_engine_instance
 
-    def read_db_creds(self):
+    def read_db_creds(self, filename):
         '''
         Reads the credentials YAML file and
         returns them as a dictionary.
@@ -28,22 +34,21 @@ class DatabaseConnector:
         Returns:
             dict: The credentials from the file
         '''
-        with open('db_creds.yaml', 'r') as f:
+        with open(filename, 'r') as f:
             items = yaml.safe_load(f)
 
         return items
 
-    def init_db_engine(self):
+    def init_db_engine(self, credentials):
         '''
-        read the credentials from the return of read_db_creds and initialise
-        and returns an sqlalchemy database engine
+        read the credentials and initialise.
+        This returns an sqlalchemy database engine
 
         Paramaters: None
         Returns:
             sqlalchemy.engine.base.Connection: An sqlalchemy database engine connection
 
         '''
-        credentials = DatabaseConnector.read_db_creds(self)
         HOST = credentials['RDS_HOST']
         PASSWORD = credentials['RDS_PASSWORD']
         USER = credentials['RDS_USER']
@@ -54,10 +59,10 @@ class DatabaseConnector:
         DBAPI = 'psycopg2'
         # Create the engine
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
-        # and do the connection to get and instance
+        # and do the connection to get and return the instance
         instance = engine.execution_options(isolation_level='AUTOCOMMIT').connect()
-
-        return instance
+        
+        return engine.execution_options(isolation_level='AUTOCOMMIT').connect()
 
     def list_db_tables(self):
         '''
@@ -81,7 +86,7 @@ class DatabaseConnector:
         Returns:
             None
         '''
-        data.to_sql(tablename, self.engine_instance)
+        data.to_sql(tablename, self.local_engine_instance, if_exists='replace')
 
     if __name__ == '__main__':
         print('Database_Utils running main')
