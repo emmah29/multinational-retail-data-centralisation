@@ -2,6 +2,7 @@ import pandas as pd
 from database_utils import DatabaseConnector
 from data_cleaning import DataCleaning
 from tabula.io import read_pdf
+import boto3
 import requests
 
 
@@ -61,7 +62,7 @@ class DataExtractor:
 
         Parameters: 
             url: str: The url of the API
-            headerdictionary: str: header dictionary
+            header_credentials: str: header dictionary
         Returns: 
             int: Number of Stores
         '''
@@ -74,22 +75,27 @@ class DataExtractor:
         else:    
             return 'API Call failed: Status Code: ' + str(response.status_code)
 
-    def retrieve_stores_data(self, endpoint: str, header_credentials: dict):
+    def retrieve_stores_data(self, 
+                            store_endpoint: str, 
+                            number_of_stores_endpoint: str,
+                            header_credentials: dict):
         '''
         Returns store data for all the stores
 
         Parameters: 
-            url: str: The url of the API
-            headerdictionary: str: header dictionary
+            store_endpoint: str: The url of the API that gives store data
+            number_of_stores_endpoint: str: The url of the API that gives the number of stores
+            header_credentials: str: header dictionary
         Returns: 
             Object: The data within the pdf
         '''
         # Make multiple calls, one for each store to the API, and put the results into a Dataframe
         # Each store has data in a dictionary. These will be concatenated into a single dictionary
         # Todo: Drive this from the number of stores retrieved
-        for store_iteration in range(450):
+        number_of_stores = self.list_number_of_stores(number_of_stores_endpoint, header_credentials)
+        for store_iteration in range(number_of_stores-1):
             # Build the endpoint
-            endpoint_with_store_number = endpoint.format(store_number=store_iteration+1)
+            endpoint_with_store_number = store_endpoint.format(store_number=store_iteration+1)
             # Call the API
             response = requests.get(endpoint_with_store_number, headers=header_credentials)
             if response.status_code == 200:
@@ -103,22 +109,33 @@ class DataExtractor:
             else:    
                 return 'API Call failed: Status Code: ' + str(response.status_code) + ' Iteration: ' + str(store_iteration+1)    
         return pd.DataFrame(stores)
+    
+    def extract_from_s3(self, s3_address: str):
+
+        '''
+        download and extract the information returning a pandas DataFrame
+
+        Parameters: 
+            s3_address: str: The S3 address of the dataframe
+        Returns: 
+            DataFrame: The dataframe 
+        '''        
+        s3 = boto3.resource('s3')
              
 def run():
     extractor = DataExtractor()
-    # print('working on user_data....')
-    # remote_db_user_data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
-    # cleansed_data = DataCleaning.clean_user_data(remote_db_user_data)
-    # extractor.connector.upload_to_db(cleansed_data, 'dim_users')
-    # print('.... complete')
+    print('working on user_data....')
+    remote_db_user_data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
+    cleansed_data = DataCleaning.clean_user_data(remote_db_user_data)
+    extractor.connector.upload_to_db(cleansed_data, 'dim_users')
+    print('.... complete')
     
-    # retrieve the pdf
-    # print('working on pdf_data....')
-    # pdf_url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
-    # pdf_data = extractor.retrieve_pdf_data(pdf_url)
-    # pdf_data_cleaned = DataCleaning.clean_card_data(pdf_data)
-    # extractor.connector.upload_to_db(pdf_data_cleaned, 'dim_card_details')
-    # print('.... complete')
+    print('working on pdf_data....')
+    pdf_url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
+    pdf_data = extractor.retrieve_pdf_data(pdf_url)
+    pdf_data_cleaned = DataCleaning.clean_card_data(pdf_data)
+    extractor.connector.upload_to_db(pdf_data_cleaned, 'dim_card_details')
+    print('.... complete')
 
     print('working on stores data...')
     header_details = {"x-api-key": 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
@@ -127,7 +144,7 @@ def run():
     
     number_of_stores = extractor.list_number_of_stores(url_number_of_stores, header_details)
     print('Number of stores: ' + str(number_of_stores))
-    stores = extractor.retrieve_stores_data(url_retrieve_a_store, header_details)
+    stores = extractor.retrieve_stores_data(url_retrieve_a_store, url_number_of_stores, header_details)
     extractor.connector.upload_to_db(stores, 'stores')
     stores_cleaned = DataCleaning.called_clean_store_data(stores)
     extractor.connector.upload_to_db(stores_cleaned, 'dim_store_details')
