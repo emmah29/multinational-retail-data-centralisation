@@ -15,4 +15,4 @@ for file in my_bucket.objects.all():
 #s3 = boto3.client('s3')
 #s3.download_file('testbucketemmahumphreys', 'screenshot1.png', 'screenshot1fromAWS.png')
 
-s3://data-handling-public/products.csv
+# s3://data-handling-public/products.csv
