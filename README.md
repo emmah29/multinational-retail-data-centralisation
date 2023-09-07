@@ -34,16 +34,14 @@ The system downloads, cleans and saves locally
 - Orders Table to orders_table
 - Date Events Data to dim_date_times
 
-### Classes
-- class DataExtractor
-Methods
+### Classes & methods
+- DataExtractor
 - - read_rds_table
 - - retrieve_pdf_data
 - - list_number_of_stores
 - - retrieve_stores_data
 - - extract_from_s3
-- class DataCleaning
-Methods
+- DataCleaning
 - - clean_user_data
 - - uuid1_to_datetime
 - - clean_card_data
@@ -53,8 +51,7 @@ Methods
 - - clean_products_data
 - - clean_orders_data
 - - clean_events_data
-- class DatabaseConnector
-Methods
+- DatabaseConnector
 - - read_db_creds
 - - init_db_engine
 - - list_db_tables
