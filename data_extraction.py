@@ -1,9 +1,9 @@
-import pandas as pd
 from database_utils import DatabaseConnector
 from data_cleaning import DataCleaning
 from tabula.io import read_pdf
 import boto3
 import requests
+import pandas as pd
 
 
 class DataExtractor:
@@ -128,8 +128,20 @@ class DataExtractor:
         #s3.download_file(bucket_name, file_name, file_name)
 
         return pd.read_csv(file_name)
+    
+    def set_data_types_orders_table(df: pd.DataFrame):
+
+        df['date_uuid'] = df['date_uuid'].astype('str')
+        df['user_uuid'] = df['user_uuid'].astype('str')
+        df['card_number'] = df['card_number'].astype('str')
+        df['store_code'] = df['store_code'].astype('str')
+        df['product_code'] = df['product_code'].astype('str')
+        df['product_quantity'] = df['product_quantity'].astype('int')
+
+        return df
              
 def run():
+    # Task 3
     extractor = DataExtractor()
     print('working on user_data....')
     remote_db_user_data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
@@ -137,18 +149,19 @@ def run():
     extractor.connector.upload_to_db(cleansed_data, 'dim_users')
     print('.... complete')
     
-    print('working on pdf_data....')
+    # Task 4 
+    print('working on AWS S3 PDF_data....')
     pdf_url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
     pdf_data = extractor.retrieve_pdf_data(pdf_url)
     pdf_data_cleaned = DataCleaning.clean_card_data(pdf_data)
     extractor.connector.upload_to_db(pdf_data_cleaned, 'dim_card_details')
     print('.... complete')
 
+    # Task 5
     print('working on stores data...')
     header_details = {"x-api-key": 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
     url_retrieve_a_store = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}'
     url_number_of_stores = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
-    
     number_of_stores = extractor.list_number_of_stores(url_number_of_stores, header_details)
     print('Number of stores: ' + str(number_of_stores))
     stores = extractor.retrieve_stores_data(url_retrieve_a_store, url_number_of_stores, header_details)
@@ -169,6 +182,7 @@ def run():
     remote_db_user_data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
     print('working on orders data.....')
     cleansed_data = DataCleaning.clean_orders_data(remote_db_user_data)
+    cleansed_data = DataExtractor.set_data_types_orders(cleansed_data)
     extractor.connector.upload_to_db(cleansed_data, 'orders_table')
     print('.... complete')
 
