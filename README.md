@@ -9,8 +9,8 @@ Loading and saving
 - PDF
 
 Packages 
-- pyYAML [![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)]
-- tabula-py
+- pyYAML ![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)
+- tabula-py ![tabula-py](https://img.shields.io/badge/tabula-py-brightgreen.svg)
 - time_uuid
 - re
 - boto3
