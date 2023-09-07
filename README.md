@@ -11,9 +11,9 @@ Loading and saving
 Packages 
 - pyYAML ![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)
 - tabula-py ![tabula-py](https://img.shields.io/badge/tabula-py-brightgreen.svg)
-- time_uuid
-- re
-- boto3
+- time_uuid ![tabula-py](https://img.shields.io/badge/time_uuid-brightgreen.svg)
+- re ![re](https://img.shields.io/badge/re-brightgreen.svg)
+- boto3 ![boto3](https://img.shields.io/badge/boto3-brightgreen.svg)
 
 Pandas Data Cleaning
 Check and remove...
