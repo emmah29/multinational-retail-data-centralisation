@@ -28,6 +28,11 @@ It is also helpful to give a walkthrough or guide to your project in action. If 
 
 [![emma](https://img.shields.io/badge/macos-catalina-brightgreen.svg)]
 [![emma2](https://img.shields.io/badge/saying-somethingelse-brightgreen.svg)]
+[![](https://img.shields.io/badge/saying-somethingnice-brightgreen.svg)]
+[!(https://img.shields.io/badge/saying-finally-brightgreen.svg)]
+
+
+
 
 
 [![macos-mojave](https://img.shields.io/badge/macos-mojave-brightgreen.svg)]
