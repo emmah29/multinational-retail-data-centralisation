@@ -1,36 +1,67 @@
 # Multinational Retail Data Centralisation
 
-To start off your README.md, I’d start by introducing the project, describing what it does and listing the technologies (python, Teachable Machine, random library) involved in the project and why you used them i.e., the random library for generating the computer’s choice in the game.
+This project is the end of the first part of the AICore training program. It demonstrates programming using Python Pandas using multiple Python technologies and skills.
+
+Loading and saving
+- Postgres Database 
+    - Local and remote
+- AWS RDS Database
+- PDF
+
+Packages 
+- pyYAML [![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)]
+- tabula-py
+- time_uuid
+- re
+- boto3
+
+Pandas Data Cleaning
+Check and remove...
+- Null Rows
+- Column data not in a list
+- Column data that isn't a valid date
+- Not numeric
+- Numerics in a range
+- Using a function
+- Unwanted characters
 
 ## Description
-I don't know yet ;-)
+The system downloads, cleans and saves locally
+- User Data to dim_users
+- Card Data to dim_card_details
+- Store Data to dim_store_details
+- Product Details to dim_products
+- Orders Table to orders_table
+- Date Events Data to dim_date_times
 
-What was your motivation? Why did you build this project?
-What problem does it solve?
-Why did you make the decisions you made in creating your solution?
-What did you learn?
-What makes your project stand out?
-If your project has a lot of different features, consider adding a "Features" section and listing them here
+### Motivation
+This provides AICore with evidence of my skills
 
+### Learnt
+It was wonderful to have the opportunity to use the skills that have been learned. 
 
 ## Installation
-
-If your project is a piece of software, like an application or a package that others might download and use, you should provide detailed instructions on how to get your project running on the reader's local environment. This could include information on necessary software, environment setup, installation of dependencies, and any final steps needed to get the project up and running.
+Download the folder multinational-retail-data-centralisation from GIT. The following files are used by the system.
+- data_cleaning.py
+- data_extraction.py
+- database_utils.py
+- db_creds.yaml
+- local_db_creds.yaml
 
 ## Usage
-
-It is also helpful to give a walkthrough or guide to your project in action. If your repository is a data project, this would be the section where you present your key findings, or it is a piece of software that others might want to use, it should show examples of how to use it. This could include code snippets, command line instructions, screenshots, gifs or videos. The goal here is to demonstrate the value of your project by showing it in action. If your project is a library, then a list of the available functions would go in this section, possibly alongside some worked examples.
+Run program data_extraction.py to run the system.
 
 ## Contributing
-!(https://img.shields.io/badge/just%20the%20message-8A2BE2)
-[!(https://img.shields.io/badge/just%20the%20message-8A2BE2)]
+This is a private project. No contributions are requested.
+
 ## License
+This is a public project. No license is requied. 
 
 [![emma](https://img.shields.io/badge/macos-catalina-brightgreen.svg)]
 [![emma2](https://img.shields.io/badge/saying-somethingelse-brightgreen.svg)]
 [![](https://img.shields.io/badge/saying-somethingnice-brightgreen.svg)]
 [!(https://img.shields.io/badge/saying-finally-brightgreen.svg)]
-[![saying-catalina](https://img.shields.io/badge/saying-catalina-brightgreen.svg)]
+
 
 
 
