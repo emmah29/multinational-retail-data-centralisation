@@ -26,9 +26,11 @@ It is also helpful to give a walkthrough or guide to your project in action. If 
 [!(https://img.shields.io/badge/just%20the%20message-8A2BE2)]
 ## License
 
-[![macos-catalina](https://img.shields.io/badge/macos-catalina-brightgreen.svg)](https://www.apple.com/macos/catalina-preview)
+[![emma](https://img.shields.io/badge/macos-catalina-brightgreen.svg)]
+[![emma2](https://img.shields.io/badge/saying-somethingelse-brightgreen.svg)]
 
-[![macos-mojave](https://img.shields.io/badge/macos-mojave-brightgreen.svg)](https://www.apple.com/lae/macos/mojave)
+
+[![macos-mojave](https://img.shields.io/badge/macos-mojave-brightgreen.svg)]
 
 [![swift-version](https://img.shields.io/badge/swift-5.1-brightgreen.svg)](https://github.com/apple/swift)
 
