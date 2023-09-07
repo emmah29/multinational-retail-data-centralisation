@@ -35,10 +35,31 @@ The system downloads, cleans and saves locally
 - Date Events Data to dim_date_times
 
 ### Classes
-- DataCleaning
-- - This is a utility class
-- DataExtractor
-- -  
+- class DataExtractor
+Methods
+- - read_rds_table
+- - retrieve_pdf_data
+- - list_number_of_stores
+- - retrieve_stores_data
+- - extract_from_s3
+- class DataCleaning
+Methods
+- - clean_user_data
+- - uuid1_to_datetime
+- - clean_card_data
+- - called_clean_store_data
+- - convert_product_weights
+- - weight
+- - clean_products_data
+- - clean_orders_data
+- - clean_events_data
+- class DatabaseConnector
+Methods
+- - read_db_creds
+- - init_db_engine
+- - list_db_tables
+- - Upload_to_db
+
 
 ## Motivation
 This provides AICore with evidence of my skills
@@ -59,7 +80,7 @@ Download the folder multinational-retail-data-centralisation from GIT. The follo
 Run program <b>run.py</b> to run the system.
 
 ## Contributing
-This is a private project. No contributions are requested.
+This is a private project for certification. Please provide feedback to emmahumphreys@gmail.com but do not make changes. 
 
 ## License
 This is a public project. No license is required. 
