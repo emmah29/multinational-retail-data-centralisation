@@ -22,8 +22,8 @@ If your project is a piece of software, like an application or a package that ot
 It is also helpful to give a walkthrough or guide to your project in action. If your repository is a data project, this would be the section where you present your key findings, or it is a piece of software that others might want to use, it should show examples of how to use it. This could include code snippets, command line instructions, screenshots, gifs or videos. The goal here is to demonstrate the value of your project by showing it in action. If your project is a library, then a list of the available functions would go in this section, possibly alongside some worked examples.
 
 ## Contributing
-https://img.shields.io/badge/just%20the%20message-8A2BE2
-
+!(https://img.shields.io/badge/just%20the%20message-8A2BE2)
+[!(https://img.shields.io/badge/just%20the%20message-8A2BE2)]
 ## License
 
 [![macos-catalina](https://img.shields.io/badge/macos-catalina-brightgreen.svg)](https://www.apple.com/macos/catalina-preview)
