@@ -7,7 +7,8 @@ import re
 class DataCleaning:
     '''
         DataCleaning
-        This is a utility class.
+        This is a utility class that provides methods that clean data
+        for specific entities
 
         Attributes:
             None

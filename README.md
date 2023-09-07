@@ -11,7 +11,7 @@ Loading and saving
 Packages 
 - pyYAML ![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)
 - tabula-py ![tabula-py](https://img.shields.io/badge/tabula-py-brightgreen.svg)
-- time_uuid ![tabula-py](https://img.shields.io/badge/time_uuid-brightgreen.svg)
+- time_uuid ![tabula-py](https://img.shields.io/badge/time-uuid-brightgreen.svg)
 - re ![re](https://img.shields.io/badge/re-brightgreen.svg)
 - boto3 ![boto3](https://img.shields.io/badge/boto3-brightgreen.svg)
 
@@ -34,10 +34,16 @@ The system downloads, cleans and saves locally
 - Orders Table to orders_table
 - Date Events Data to dim_date_times
 
-### Motivation
+### Classes
+- DataCleaning
+- - This is a utility class
+- DataExtractor
+- -  
+
+## Motivation
 This provides AICore with evidence of my skills
 
-### Learnt
+## Learnt
 It was wonderful to have the opportunity to use the skills that have been learned. 
 
 ## Installation
@@ -47,35 +53,13 @@ Download the folder multinational-retail-data-centralisation from GIT. The follo
 - database_utils.py
 - db_creds.yaml
 - local_db_creds.yaml
+- run.py
 
 ## Usage
-Run program data_extraction.py to run the system.
+Run program <b>run.py</b> to run the system.
 
 ## Contributing
 This is a private project. No contributions are requested.
 
 ## License
-This is a public project. No license is requied. 
-
-[![emma](https://img.shields.io/badge/macos-catalina-brightgreen.svg)]
-[![emma2](https://img.shields.io/badge/saying-somethingelse-brightgreen.svg)]
-[![](https://img.shields.io/badge/saying-somethingnice-brightgreen.svg)]
-[!(https://img.shields.io/badge/saying-finally-brightgreen.svg)]
-
-
-
-
-
-[![macos-mojave](https://img.shields.io/badge/macos-mojave-brightgreen.svg)]
-
-[![swift-version](https://img.shields.io/badge/swift-5.1-brightgreen.svg)](https://github.com/apple/swift)
-
-[![swiftui-version](https://img.shields.io/badge/swiftui-beta-brightgreen)](https://developer.apple.com/documentation/swiftui)
-
-[![xcode-version](https://img.shields.io/badge/xcode-11%20beta-brightgreen)](https://developer.apple.com/xcode/)
-
-[![rxswift](https://img.shields.io/badge/rxswift-5.0.1-brightgreen)](https://github.com/ReactiveX/RxSwift)
-
-[![build-status](https://travis-ci.com/backslash-f/aescryptable.svg?branch=master)](https://travis-ci.com/backslash-f/aescryptable)
-
-[![license](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://en.wikipedia.org/wiki/MIT_License)
+This is a public project. No license is required. 

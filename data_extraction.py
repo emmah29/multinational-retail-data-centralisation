@@ -10,7 +10,7 @@ class DataExtractor:
     '''
         DataExtractor
 
-        This is a utility class.
+        This is a utility class that handles data store load and save.
 
         Attributes:
             engine
