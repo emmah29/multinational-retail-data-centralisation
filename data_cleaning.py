@@ -1,8 +1,8 @@
-import uuid
 from datetime import datetime, timedelta
 import time_uuid
 import pandas as pd
 import re
+import uuid
 
 class DataCleaning:
     '''

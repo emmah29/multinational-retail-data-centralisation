@@ -1,9 +1,9 @@
-import yaml
 from sqlalchemy import create_engine
 from sqlalchemy import text
 from sqlalchemy import inspect
 from sklearn.datasets import load_iris
 import pandas as pd
+import yaml
 
 
 class DatabaseConnector:

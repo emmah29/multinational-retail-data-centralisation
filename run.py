@@ -34,10 +34,10 @@ def run():
     extractor.connector.upload_to_db(stores_cleaned, 'dim_store_details')
     print('.... complete')
 
-    #Task 6
-    df = extractor.extract_from_s3('s3://data-handling-public/products.csv')
-    products_cleaned = DataCleaning.clean_products_data(df)
-    extractor.connector.upload_to_db(products_cleaned, 'dim_products')
+    # #Task 6
+    # df = extractor.extract_from_s3('s3://data-handling-public/products.csv')
+    # products_cleaned = DataCleaning.clean_products_data(df)
+    # extractor.connector.upload_to_db(products_cleaned, 'dim_products')
 
     # Task 7
     list_of_tables_in_database = extractor.connector.list_db_tables()
@@ -45,7 +45,7 @@ def run():
     # Read the table
     remote_db_user_data = extractor.read_rds_table(extractor.connector_instance, 'orders_table').set_index('index')
     print('working on orders data.....')
-    cleansed_data = DataCleaning.clean_orders_data(remote_db_user_data)
+    cleansed_data = extractor.connector.set_data_types_orders(DataCleaning.clean_orders_data(remote_db_user_data))
     extractor.connector.upload_to_db(cleansed_data, 'orders_table')
     print('.... complete')
 
