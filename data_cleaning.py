@@ -22,14 +22,9 @@ class DataCleaning:
 
         The following cleaning is done 
         - Remove/Replace columns/rows with NULL values
-            - first_name: Replace null with 'unknown'
-            - last_name: Replace null with 'unknown'
-            - 1: Remove column
         - errors with dates
-            - Convert UUID to date
-            - Change type of column date_uuid to date
         - incorrectly typed values  
-            - Credit card numbers can be 8 to 19 characters long, these are 9 to 19.
+            - email address must have a @
         - rows filled with the wrong information
             - product_code & store_code have been checked.. all are okay
 
@@ -39,18 +34,28 @@ class DataCleaning:
         Returns: 
             Dataframe: A new dataframe with the cleaned dataset within it
         '''
+        valid_countries = ['Germany', 'United Kingdom', 'United States']
+        valid_country_code = ['DE', 'GB', 'US']
         # First copy the Dataframe
-        cleansed_data = data.copy(deep=True)
+        cloned_data = data.copy(deep=True)
+        # Remove null rows
+        cleansed_data = cloned_data.dropna(axis=0)
         # - Remove/Replace data/columns/rows with NULL values
-        #     - first_name: Replace null with 'unknown'
-        cleansed_data['first_name'].fillna('unknown', inplace = True)
-        #     - last_name: Replace null with 'unknown'
-        cleansed_data['last_name'].fillna('unknown', inplace = True)
-        #     - 1: Remove column
-        cleansed_data.drop(['1'], axis=1, inplace = True)
-        # - errors with dates
-        #     - Convert UUID to date
-        #cleansed_dataset['date_timestamp'] = cleansed_dataset['date_uuid'].apply(lambda x: self.uuid1_to_datetime(x))
+        # - remove invalid dates
+        cleansed_data['valid_date_of_birth']  = cleansed_data['date_of_birth'].apply(lambda x: pd.to_datetime(x, format=" %Y-%m-%d", errors='coerce'))
+        cleansed_data = cleansed_data.loc [ cleansed_data['valid_date_of_birth'] != pd.NaT ] 
+        cleansed_data.drop(['valid_date_of_birth'], axis=1, inplace = True)   
+        cleansed_data['valid_join_date']  = cleansed_data['join_date'].apply(lambda x: pd.to_datetime(x, format=" %Y-%m-%d", errors='coerce'))
+        cleansed_data = cleansed_data.loc [ cleansed_data['valid_join_date'] != pd.NaT ] 
+        cleansed_data.drop(['valid_join_date'], axis=1, inplace = True)   
+        # - email address
+        cleansed_data['email_at_sign_location'] = cleansed_data['email_address'].str.find('@')
+        cleansed_data = cleansed_data.loc [ cleansed_data['email_at_sign_location'] >= 0 ] 
+        cleansed_data.drop(['email_at_sign_location'], axis=1, inplace = True)    
+        # - country
+        cleansed_data =  cleansed_data.loc[ cleansed_data['country'].isin(valid_countries)]
+        # - country code
+        cleansed_data =  cleansed_data.loc[ cleansed_data['country_code'].isin(valid_country_code)]
         return cleansed_data
        
     def uuid1_to_datetime(date_uuid_timestamp):
@@ -62,7 +67,7 @@ class DataCleaning:
         
         Returns: 
             datetime: The date in datetime format
-        '''
+        '''      
         date_uuid_uuid = uuid.UUID(date_uuid_timestamp)
         return time_uuid.TimeUUID(bytes=date_uuid_uuid.bytes).get_datetime() 
 
@@ -198,6 +203,16 @@ class DataCleaning:
         cleansed_data = data.copy(deep=True)
         # cleanse the product weight
         cleansed_data['weight'] = cleansed_data['weight'].apply(DataCleaning.weight)
+        # New column weight_class
+        #          +--------------------------+-------------------+
+        #          | weight_class VARCHAR(?)  | weight range(kg)  |
+        #          +--------------------------+-------------------+
+        #          | Light                    | < 2               |
+        #          | Mid_Sized                | >= 2 - < 40       |
+        #          | Heavy                    | >= 40 - < 140     |
+        #          | Truck_Required           | => 140            |
+        #          +----------------------------+-----------------+
+        cleansed_data['weight_class'] = cleansed_data['weight'].apply(DataCleaning.weight_class)
 
         return cleansed_data
     def weight(input_weight: str):
@@ -249,6 +264,37 @@ class DataCleaning:
         # Convert all to float (catches any without kg or g)
         return float(converted_weight)
     
+    def weight_class(weight_in_grammes: int):
+        '''
+        Converts a weight in grammes into a weight class in the following ranges
+
+                 +--------------------------+-------------------+
+                 | weight_class VARCHAR(?)  | weight range(kg)  |
+                 +--------------------------+-------------------+
+                 | Light                    | < 2               |
+                 | Mid_Sized                | >= 2 - < 40       |
+                 | Heavy                    | >= 40 - < 140     |
+                 | Truck_Required           | => 140            |
+                 +----------------------------+-----------------+
+        
+        Parameters: 
+            weight_in_grammes: int: The weight to be converted
+
+        Returns: 
+            str: The weight class (Light, Mid-Sized, Heavy, Truck_Required)
+        '''
+        weight_class = ''
+        if weight_in_grammes < 2: 
+            weight_class = 'Light'
+        elif weight_in_grammes >= 2 and weight_in_grammes < 40:
+            weight_class = 'Mid_Sized'
+        elif weight_in_grammes >= 40 and weight_in_grammes < 140:
+            weight_class = 'Heavy'
+        else:
+            weight_class = 'Truck_Required'
+
+        return weight_class
+
     def clean_products_data(data: pd.DataFrame):
         '''        
         Removes any erroneous values from the DataFrame, NULL values or errors with formatting.
@@ -308,6 +354,12 @@ class DataCleaning:
         cleansed_data.drop(['first_name', 'last_name', '1'], axis=1, inplace = True)
         # removes nulls
         cleansed_data = cleansed_data.dropna(axis=0)
+        # remove rows which are no in the relevant dim table
+        # card_number in dim_card_details
+        # date_uuid in dim_date_times
+        # product_code in dim_products
+        # store_code in dim_store_details
+        # user_uuid in dim_users
 
         return cleansed_data
     

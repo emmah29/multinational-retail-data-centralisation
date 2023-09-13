@@ -9,11 +9,12 @@ Loading and saving
 - PDF
 
 Packages 
-- pyYAML ![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)
-- tabula-py ![tabula-py](https://img.shields.io/badge/tabula-py-brightgreen.svg)
-- time_uuid ![tabula-py](https://img.shields.io/badge/time-uuid-brightgreen.svg)
-- re ![re](https://img.shields.io/badge/re-brightgreen.svg)
-- boto3 ![boto3](https://img.shields.io/badge/boto3-brightgreen.svg)
+- ![pyYAML](https://img.shields.io/badge/pyYAML-brightgreen.svg)
+- ![tabula-py](https://img.shields.io/badge/tabula-py-brightgreen.svg)
+- ![tabula-py](https://img.shields.io/badge/time-uuid-brightgreen.svg)
+- ![re](https://img.shields.io/badge/re-brightgreen.svg)
+- ![boto3](https://img.shields.io/badge/boto3-brightgreen.svg)
+- ![sqlalchemy](https://img.shields.io/badge/sqlalchemy-brightgreen.svg)
 
 Pandas Data Cleaning
 Check and remove...

@@ -23,7 +23,6 @@ class DatabaseConnector:
         # Launch the local db engine
         local_credentials = DatabaseConnector.read_db_creds(self, 'local_db_creds.yaml')
         self.local_engine_instance = self.init_db_engine(local_credentials)  
-        self.local_engine_instance
 
     def read_db_creds(self, filename):
         '''
@@ -87,6 +86,22 @@ class DatabaseConnector:
             None
         '''
         data.to_sql(tablename, self.local_engine_instance, if_exists='replace')
+
+    def run_sql_file(self, filepath: str):
+        '''
+        Runs the script within an sql file agains the local database
+
+        Parameters:
+            filepath: str: The filepath
+        Returns:
+            None
+        '''
+        local_credentials = DatabaseConnector.read_db_creds(self, 'local_db_creds.yaml')
+        with self.init_db_engine(local_credentials) as con:
+            with open(filepath) as file:
+                query = text(file.read())
+                con.execute(query)
+
 
     if __name__ == '__main__':
         print('Database_Utils running main')
