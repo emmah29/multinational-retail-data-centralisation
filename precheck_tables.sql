@@ -1,32 +1,32 @@
-do $$
-declare
-	table_existence boolean;
-begin
+DO $$
+DECLARE
+	table_existence BOOLEAN;
+BEGIN
 	
-	select exists ( select 1 from pg_tables where tablename = 'dim_date_times' ) into table_existence;
-	if table_existence then 
-		drop table dim_date_times cascade;
-	end if;
+	SELECT EXISTS ( SELECT 1 FROM pg_tables WHERE tablename = 'dim_date_times' ) INTO table_existence;
+	IF table_existence THEN 
+		DROP TABLE dim_date_times CASCADE;
+	END IF;
 	
-	select exists ( select 1 from pg_tables where tablename = 'dim_card_details' ) into table_existence;
-	if table_existence then 
-		drop table dim_card_details cascade;
-	end if;
+	SELECT EXISTS ( SELECT 1 FROM pg_tables WHERE tablename = 'dim_card_details' ) INTO table_existence;
+	IF table_existence THEN 
+		DROP TABLE dim_card_details CASCADE;
+	END IF;
 	
-	select exists ( select 1 from pg_tables where tablename = 'dim_store_details' ) into table_existence;
-	if table_existence then 
-		drop table dim_store_details cascade;
-	end if;
+	SELECT EXISTS ( SELECT 1 FROM pg_tables WHERE tablename = 'dim_store_details' ) INTO table_existence;
+	IF table_existence THEN 
+		DROP TABLE dim_store_details CASCADE;
+	END IF;
 	
-	select exists ( select 1 from pg_tables where tablename = 'dim_users' ) into table_existence;
-	if table_existence then 
-		drop table dim_users cascade;
-	end if;
+	SELECT EXISTS ( SELECT 1 FROM pg_tables WHERE tablename = 'dim_users' ) INTO table_existence;
+	IF table_existence THEN 
+		DROP TABLE dim_users CASCADE;
+	END IF;
 	
-	select exists ( select 1 from pg_tables where tablename = 'orders_table' ) into table_existence;
-	if table_existence then 
-		drop table orders_table cascade;
-	end if;
+	SELECT EXISTS ( SELECT 1 FROM pg_tables WHERE tablename = 'orders_table' ) INTO table_existence;
+	IF table_existence THEN 
+		DROP TABLE orders_table CASCADE;
+	END IF;
 	
-end; $$ ; 
+END; $$ ; 
 	

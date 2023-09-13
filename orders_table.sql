@@ -3,46 +3,46 @@ file: orders_table.sql
 description: amends the column types
 */
 
-do $$
-declare
+DO $$
+DECLARE
  	max_length integer;
-begin 
+BEGIN 
  	-- date_uuid
-	alter table orders_table alter column date_uuid set data type uuid USING date_uuid::uuid;
+	ALTER TABLE orders_table ALTER COLUMN date_uuid SET DATA TYPE uuid USING date_uuid::UUID;
  	-- date_uuid
-	alter table orders_table alter column user_uuid set data type uuid USING user_uuid::uuid;
+	ALTER TABLE orders_table ALTER COLUMN user_uuid SET DATA TYPE uuid USING user_uuid::UUID;
 	-- card_number
-	select max(length(cast(card_number as text))) into max_length from orders_table;
-	execute 'alter table orders_table alter column card_number set data type varchar(' || max_length || ')';
+	SELECT max(LENGTH(CAST(card_number AS TEXT))) INTO max_length FROM orders_table;
+	EXECUTE 'ALTER TABLE orders_table ALTER COLUMN card_number SET DATA TYPE VARCHAR(' || max_length || ')';
 	-- store_code
-	select max(length(cast(store_code as text))) into max_length from orders_table;
-	execute 'alter table orders_table alter column store_code set data type varchar(' || max_length || ')';	
+	SELECT max(LENGTH(CAST(store_code AS TEXT))) INTO max_length FROM orders_table;
+	EXECUTE 'ALTER TABLE orders_table ALTER COLUMN store_code SET DATA TYPE VARCHAR(' || max_length || ')';	
 	-- product_code
-	select max(length(cast(product_code as text))) into max_length from orders_table;
-	execute 'alter table orders_table alter column product_code set data type varchar(' || max_length || ')';
+	SELECT max(LENGTH(CAST(product_code AS TEXT))) INTO max_length FROM orders_table;
+	EXECUTE 'ALTER TABLE orders_table ALTER COLUMN product_code SET DATA TYPE VARCHAR(' || max_length || ')';
 	-- product_quantity
-	alter table orders_table alter column product_quantity set data type smallint;
-    -- remove records in the fact table that are not in the dimension tables
+	ALTER TABLE orders_table ALTER COLUMN product_quantity SET DATA TYPE SMALLINT;
+    -- remove records in the fact table that are NOT IN the dimension tables
 	-- dim_card_details
-	delete from orders_table ord
-	where card_number not in 
-	(select card_number from dim_card_details);
+	DELETE FROM orders_table ord
+	WHERE card_number NOT IN 
+	(SELECT card_number FROM dim_card_details);
 	-- dim_date_times
-	delete from orders_table ord
-	where date_uuid not in 
-	(select date_uuid from dim_date_times);
+	DELETE FROM orders_table ord
+	WHERE date_uuid NOT IN 
+	(SELECT date_uuid FROM dim_date_times);
 	-- dim_store_details
-	delete from orders_table ord
-	where store_code not in 
-	(select store_code from dim_store_details);
+	DELETE FROM orders_table ord
+	WHERE store_code NOT IN 
+	(SELECT store_code FROM dim_store_details);
 	-- dim_users
-	delete from orders_table ord
-	where user_uuid not in 
-	(select user_uuid from dim_users);
+	DELETE FROM orders_table ord
+	WHERE user_uuid NOT IN 
+	(SELECT user_uuid FROM dim_users);
 	-- dim_products
---	delete from orders_table ord
---	where product_code not in 
---	(select product_code from dim_products);
+--	DELETE FROM orders_table ord
+--	WHERE product_code NOT IN 
+--	(SELECT product_code FROM dim_products);
 	commit;
 	-- foreign keys
 	ALTER TABLE orders_table

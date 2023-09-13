@@ -1,42 +1,42 @@
 /*
 file: columns_dim_store_details.sql
-description: amends the column types and primary key
+description: amENDs the column types AND primary key
 */
 
-do $$
-declare
- 	max_length integer;
-	row_exists integer = 0;
-begin 
+DO $$
+DECLARE
+ 	max_length INTEGER;
+	row_exists INTEGER = 0;
+BEGIN 
  	-- longitude
-	alter table dim_store_details alter column longitude set data type FLOAT USING longitude::double precision;
+	ALTER TABLE dim_store_details ALTER COLUMN longitude SET DATA TYPE FLOAT USING longitude::DOUBLE PRECISION;
  	-- locality
-	alter table dim_store_details alter column locality set data type varchar(255);
+	ALTER TABLE dim_store_details ALTER COLUMN locality SET DATA TYPE VARCHAR(255);
 	-- store_code
-	select max(length(cast(store_code as text))) into max_length from dim_store_details;
-	execute 'alter table dim_store_details alter column store_code set data type varchar(' || max_length || ')';	
+	SELECT max(length(cast(store_code as text))) into max_length FROM dim_store_details;
+	EXECUTE 'ALTER TABLE dim_store_details ALTER COLUMN store_code SET DATA TYPE VARCHAR(' || max_length || ')';	
 	-- staff_numbers
-	alter table dim_store_details alter column staff_numbers set data type smallint USING staff_numbers::smallint;
-	-- opening_date
-	alter table dim_store_details alter column opening_date set data type date USING opening_date::date;
+	ALTER TABLE dim_store_details ALTER COLUMN staff_numbers SET DATA TYPE SMALLINT USING staff_numbers::SMALLINT;
+	-- opening_DATE
+	ALTER TABLE dim_store_details ALTER COLUMN opening_date SET DATA TYPE DATE USING opening_DATE::DATE;
 	-- store_type
-	alter table dim_store_details alter column store_type set data type varchar(255);
-    alter table dim_store_details alter column store_type drop not null;
+	ALTER TABLE dim_store_details ALTER COLUMN store_type SET DATA TYPE VARCHAR(255);
+    ALTER TABLE dim_store_details ALTER COLUMN store_type DROP NOT NULL;
 	-- latitude
-	alter table dim_store_details alter column latitude set data type float USING latitude::double precision;
+	ALTER TABLE dim_store_details ALTER COLUMN latitude SET DATA TYPE FLOAT USING latitude::DOUBLE PRECISION;
 	-- country_code
-	select max(length(cast(country_code as text))) into max_length from dim_store_details;
-	execute 'alter table dim_store_details alter column country_code set data type varchar(' || max_length || ')';	
+	SELECT MAX(LENGTH(CAST(country_code AS TEXT))) INTO max_length FROM dim_store_details;
+	EXECUTE 'ALTER TABLE dim_store_details ALTER COLUMN country_code SET DATA TYPE VARCHAR(' || max_length || ')';	
 	-- continent
-	alter table dim_store_details alter column continent set data type varchar(255);
+	ALTER TABLE dim_store_details ALTER COLUMN continent SET DATA TYPE VARCHAR(255);
 	-- primary key
-	select 1 into row_exists
-	from 	INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
-	where 	CONSTRAINT_TYPE = 'PRIMARY KEY' and 
+	SELECT 1 into row_exists
+	FROM 	INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
+	WHERE 	CONSTRAINT_TYPE = 'PRIMARY KEY' AND 
 			TABLE_NAME = 'dim_store_details'  
-	limit 1;
-	if row_exists = 1 then
+	LIMIT 1;
+	IF row_exists = 1 THEN
 		ALTER TABLE dim_store_details DROP CONSTRAINT dim_store_details_pkey CASCADE;
-	end if;
-	alter table dim_store_details add primary key (store_code);
-end; $$ ; 
+	END IF;
+	ALTER TABLE dim_store_details add primary key (store_code);
+END; $$ ; 
