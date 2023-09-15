@@ -26,6 +26,6 @@ BEGIN
 	IF row_exists = 1 THEN
 		ALTER TABLE dim_card_details DROP CONSTRAINT dim_card_details_pkey CASCADE;
 	END IF;
-	ALTER TABLE dim_card_details add PRIMARY EKY (card_number);
+	ALTER TABLE dim_card_details add PRIMARY KEY (card_number);
 
 END; $$ ; 

@@ -189,9 +189,10 @@ class DataCleaning:
         '''        
         take the products DataFrame as an argument and return the products DataFrame
 
-        If you check the weight column in the DataFrame the weights all have different units.
-        Convert them all to a decimal value representing their weight in kg. Use a 1:1 ratio of ml to g as a rough estimate for the rows containing ml.
-        Develop the method to clean up the weight column and remove all excess characters then represent the weights as a float.
+        - Within the weight column in the DataFrame the weights all have different units.
+        These are converted to a decimal value representing their weight in kg. Using 
+        a 1:1 ratio of ml to g as a rough estimate for the rows containing ml. 
+        All excess characters that represent the weights as a float are removed.
 
         Parameters: 
             data: Dataframe: The dataset to be cleansed

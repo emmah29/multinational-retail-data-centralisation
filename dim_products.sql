@@ -13,20 +13,20 @@ BEGIN
  	-- weight
 	ALTER TABLE dim_products ALTER COLUMN weight SET DATA TYPE FLOAT USING weight::FLOAT;
 	-- EAN
-	SELECT max(length(cast(EAN as text))) INTO max_length FROM dim_products;
-	EXECUTE 'ALTER TABLE dim_products ALTER COLUMN ean SET DATA TYPE VARCHAR(' || max_length || ')';
+	SELECT max(length(cast("EAN" as text))) INTO max_length FROM dim_products;
+	EXECUTE 'ALTER TABLE dim_products ALTER COLUMN "EAN" SET DATA TYPE VARCHAR(' || max_length || ')';
 	-- product_code
 	SELECT max(length(cast(product_code as text))) INTO max_length FROM orders_table;
 	EXECUTE 'ALTER TABLE dim_products ALTER COLUMN product_code SET DATA TYPE VARCHAR(' || max_length || ')';	
 	-- date_added
-	ALTER TABLE dim_products ALTER COLUMN date_added SET DATA TYPE DATE;
+	ALTER TABLE dim_products ALTER COLUMN date_added SET DATA TYPE DATE USING date_added::DATE;
 	-- uuid
-	ALTER TABLE dim_products ALTER COLUMN uuid SET DATA TYPE UUID;
+	ALTER TABLE dim_products ALTER COLUMN "uuid" SET DATA TYPE UUID USING uuid::"uuid";
 	-- still_available
 	--ALTER TABLE dim_products ALTER COLUMN still_available SET DATA TYPE BOOL;
 	-- weight_class
-	SELECT max(length(cast(weight_class AS TEXT))) INTO max_length FROM orders_table;
-	EXECUTE 'ALTER TABLE dim_products ALTER COLUMN weight_class SET DATA TYPE VARCHAR(' || max_length || ')';	
+	SELECT max(length(cast("weight_class" AS TEXT))) INTO max_length FROM dim_products;
+	EXECUTE 'ALTER TABLE dim_products ALTER COLUMN "weight_class" SET DATA TYPE VARCHAR(' || max_length || ')';	
 	-- primary key
 	SELECT 1 INTO row_exists
 	FROM 	INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
