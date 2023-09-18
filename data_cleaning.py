@@ -355,12 +355,6 @@ class DataCleaning:
         cleansed_data.drop(['first_name', 'last_name', '1'], axis=1, inplace = True)
         # removes nulls
         cleansed_data = cleansed_data.dropna(axis=0)
-        # remove rows which are no in the relevant dim table
-        # card_number in dim_card_details
-        # date_uuid in dim_date_times
-        # product_code in dim_products
-        # store_code in dim_store_details
-        # user_uuid in dim_users
 
         return cleansed_data
     
