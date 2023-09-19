@@ -1,5 +1,5 @@
 /*
-file: columns_dim_products.sql
+file: dim_products.sql
 description: amends the column types and primary key
 */
 

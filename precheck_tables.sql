@@ -1,3 +1,8 @@
+/*
+file: precheck_tables.sql
+description: Drops the local database tables if they already exist
+*/
+
 DO $$
 DECLARE
 	table_existence BOOLEAN;

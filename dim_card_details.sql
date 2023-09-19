@@ -1,6 +1,6 @@
 
 /*
-file: columns_dim_date_times.sql
+file: dim_date_times.sql
 description: amends the column types and adds primary key
 */
 

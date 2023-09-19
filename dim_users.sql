@@ -1,5 +1,5 @@
 /*
-file: columns_dim_users.sql
+file: dim_users.sql
 description: amends the column types and primary key
 */
 

@@ -102,10 +102,9 @@ class DatabaseConnector:
                 query = text(file.read())
                 con.execute(query)
 
+    def run():
+        print('Nothing in main')
 
-    if __name__ == '__main__':
-        print('Database_Utils running main')
-
-# connector = DatabaseConnector()
-# tables = pd.read_sql_query('''SELECT tablename FROM pg_catalog.pg_tables LIMIT 10''', me.engine_instance)
-# print( tables)
+if __name__ == '__main__':
+    print('database_utils running main')
+    DatabaseConnector.run()

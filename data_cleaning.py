@@ -111,12 +111,10 @@ class DataCleaning:
        
         return cleansed_data
 
-
     def called_clean_store_data(data: pd.DataFrame):
         '''        
         Removes any erroneous values from the pdf, NULL values or errors with formatting.
 
-        - removes nulls
         - address - Remove random letters - hard to identify
         - longitude - Remove non-numerics
         - lat - Largely unpopulated and not clear what it is, nothing removed
@@ -136,12 +134,16 @@ class DataCleaning:
         '''
         # First copy the Dataframe
         cleansed_data = data.copy(deep=True)
+        # Retain the web store
+        #web_store = data.loc[data['store_code'] == 'WEB-1388012W']
+        # locate the row to update
+        row_index = cleansed_data.loc[cleansed_data['store_code'] == 'WEB-1388012W'].index[0]
+        cleansed_data.loc[row_index, 'longitude'] = 0
+        cleansed_data.loc[row_index, 'latitude'] = 0
         # Set up valid codes
-        valid_store_types = ['Super Store', 'Local', 'Outlet', 'Mail Kiosk']
+        valid_store_types = ['Super Store', 'Local', 'Outlet', 'Mail Kiosk', 'Web Portal']
         valid_country_code = ['US', 'GB', 'DE']
         valid_continent = ['America', 'Europe']
-        # remove nulls
-        cleansed_data.dropna(axis=0)
         # address
         # - Remove random letters - hard to identify
         # longitude
@@ -150,7 +152,6 @@ class DataCleaning:
         cleansed_data = cleansed_data.loc[ ~cleansed_data['longitude_numeric'].isnull() ] 
         cleansed_data = cleansed_data.loc[ (cleansed_data.longitude.astype(float) > -180) & (cleansed_data.longitude.astype(float) < 180)]
         cleansed_data.drop(['longitude_numeric'], axis=1, inplace = True)
-        
         # lat 
         # - Only nulls after removal of bad rows so this will be removed.
         cleansed_data.drop(['lat'], axis=1, inplace = True)
@@ -182,6 +183,8 @@ class DataCleaning:
         # continent
         # # - Identify all the valid stores and remove any that aren't in one of these
         cleansed_data = cleansed_data.loc[ cleansed_data['continent'].isin(valid_continent)]
+        # Add the web store back in
+        #cleansed_data = pd.concat([cleansed_data, web_store]) 
         
         return cleansed_data
     
@@ -388,7 +391,7 @@ class DataCleaning:
         return cleansed_data
 
     def run():
-        print('Nothing here yet')
+        print('Nothing in main')
 
 if __name__ == '__main__':
     print('data_cleaning running main')

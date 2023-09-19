@@ -14,6 +14,7 @@ This project is the end of the first part of the AICore training program. It dem
 - - [ Pandas Data Cleaning ](#pandas)
 - - [ System Description ](#description)
 - - [ Classes & methods ](#classes)
+- - [ Reporting ](#reporting)
 - [ Motivation ](#motivation)
 - - [ What Learnt ](#learnt)
 - [ Installation ](#installation)
@@ -74,6 +75,16 @@ The system downloads, cleans and saves locally
 - - list_db_tables
 - - Upload_to_db
 
+### <a name="reporting"></a>Reporting
+- - How many stores and in which countries
+- - Which locations have the most stores
+- - Which months produce the average highest cost of sales typically
+- - How many sales are coming from online
+- - What percentage of sales are come through each type of store
+- - Which month has produced the highest cost of sales
+- - What is our staff headcount
+- - Which German store is selling the most
+- - How quickly the company is making sales
 
 ## <a name="motivation"></a>Motivation
 This provides AICore with evidence of my skills
@@ -87,7 +98,17 @@ Download the folder multinational-retail-data-centralisation from GIT. The follo
 - data_extraction.py
 - database_utils.py
 - db_creds.yaml
+- dim_card_details.sql
+- dim_date_times.sql
+- dim_products.sql
+- dim_store_details.sql
+- dim_users.sql
+- get_data.py
 - local_db_creds.yaml
+- multinational_reports.py
+- orders_table.sql
+- precheck_tables.sql
+- reports.py
 - run.py
 
 ## <a name="usage"></a>Usage

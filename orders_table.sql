@@ -24,25 +24,25 @@ BEGIN
 	ALTER TABLE orders_table ALTER COLUMN product_quantity SET DATA TYPE SMALLINT;
     -- remove records in the fact table that are NOT IN the dimension tables
 	-- dim_card_details
-	-- DELETE FROM orders_table ord
-	-- WHERE card_number NOT IN 
-	-- (SELECT card_number FROM dim_card_details);
-	-- -- dim_date_times
-	-- DELETE FROM orders_table ord
-	-- WHERE date_uuid NOT IN 
-	-- (SELECT date_uuid FROM dim_date_times);
-	-- -- dim_store_details
-	-- DELETE FROM orders_table ord
-	-- WHERE store_code NOT IN 
-	-- (SELECT store_code FROM dim_store_details);
-	-- -- dim_users
-	-- DELETE FROM orders_table ord
-	-- WHERE user_uuid NOT IN 
-	-- (SELECT user_uuid FROM dim_users);
-	-- dim_products
---	DELETE FROM orders_table ord
---	WHERE product_code NOT IN 
---	(SELECT product_code FROM dim_products);
+	DELETE FROM orders_table ord
+	WHERE card_number NOT IN 
+	(SELECT card_number FROM dim_card_details);
+	-- dim_date_times
+	DELETE FROM orders_table ord
+	WHERE date_uuid NOT IN 
+	(SELECT date_uuid FROM dim_date_times);
+	-- dim_store_details
+	DELETE FROM orders_table ord
+	WHERE store_code NOT IN 
+	(SELECT store_code FROM dim_store_details);
+	-- dim_users
+	DELETE FROM orders_table ord
+	WHERE user_uuid NOT IN 
+	(SELECT user_uuid FROM dim_users);
+	--dim_products
+	DELETE FROM orders_table ord
+	WHERE product_code NOT IN 
+	(SELECT product_code FROM dim_products);
 	commit;
 	-- foreign keys
 	ALTER TABLE orders_table

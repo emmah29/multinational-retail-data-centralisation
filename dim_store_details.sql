@@ -1,5 +1,5 @@
 /*
-file: columns_dim_store_details.sql
+file: dim_store_details.sql
 description: amENDs the column types AND primary key
 */
 
