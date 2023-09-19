@@ -390,12 +390,12 @@ class DataCleaning:
 
         return cleansed_data
 
-    def run():
+    def main():
         print('Nothing in main')
 
 if __name__ == '__main__':
     print('data_cleaning running main')
-    DataCleaning.run()
+    DataCleaning.main()
         
 
 
