@@ -119,4 +119,4 @@ Download the folder multinational-retail-data-centralisation from GIT. The follo
 This is a private project for certification. Please provide feedback to emmahumphreys@gmail.com but do not make changes. 
 
 ## <a name="license"></a>License
-This is a public project. No license is required. 
+This is a public project. No license is required here.
